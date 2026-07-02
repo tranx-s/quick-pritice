@@ -28,7 +28,7 @@
     <view class="answer-bar">
       <view class="ab-left">{{selectedModule}}</view>
       <view class="ab-progress">{{currentIndex + 1}}/{{questions.length}}</view>
-      <view class="ab-answered">已答 {{userAnswers.filter(a => a).length}}</view>
+      <view class="ab-answered">已答 {{answeredCount}}</view>
     </view>
     <view class="prog-wrap">
       <view class="prog-fill"

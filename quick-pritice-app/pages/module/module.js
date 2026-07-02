@@ -16,6 +16,7 @@ Page({
     questions: [],
     currentIndex: 0,
     userAnswers: [],
+    answeredCount: 0,
     showAnalysis: false,
     isCorrect: false,
     result: null,
