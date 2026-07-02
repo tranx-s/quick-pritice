@@ -1,0 +1,16 @@
+# Maven
+quick-pritice-next/target/
+
+# IDEA
+.idea/
+*.iml
+
+# Node
+quick-pritice-front/node_modules/
+quick-pritice-front/dist/
+
+# 微信开发者工具
+quick-pritice-app/project.private.config.json
+
+# 内存文件
+.claude/

@@ -1,0 +1,11 @@
+这个目录用于存放 tabBar 图标文件
+
+需要的图标文件：
+- home.png (首页图标，未选中)
+- home-active.png (首页图标，选中)
+- game.png (闯关图标，未选中)
+- game-active.png (闯关图标，选中)
+- profile.png (我的图标，未选中)
+- profile-active.png (我的图标，选中)
+
+建议尺寸：81px × 81px (推荐使用 3 倍图)

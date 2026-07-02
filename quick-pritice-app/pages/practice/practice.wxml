@@ -1,0 +1,87 @@
+<!--pages/practice/practice.wxml-->
+<view class="practice-container">
+  <!-- 顶部进度条 -->
+  <view class="header">
+    <view class="progress-bar">
+      <view class="progress" style="width: {{progress}}%"></view>
+    </view>
+    <view class="question-count">{{currentIndex + 1}} / {{questions.length}}</view>
+
+    <!-- 倒计时（可选） -->
+    <view class="timer" wx:if="{{showTimer}}">
+      <text>⏱️ {{formatTime(timeLeft)}}</text>
+    </view>
+  </view>
+
+  <!-- 题目内容 -->
+  <view class="question-content" wx:if="{{questions.length > 0}}">
+    <view class="question-text">{{questions[currentIndex].content}}</view>
+
+    <!-- 选项 -->
+    <view class="options">
+      <view
+        class="option-item {{userAnswers[currentIndex] === 'A' ? 'selected' : ''}}"
+        bindtap="selectAnswer"
+        data-answer="A">
+        <text class="option-label">A</text>
+        <text class="option-text">{{questions[currentIndex].optionA}}</text>
+      </view>
+
+      <view
+        class="option-item {{userAnswers[currentIndex] === 'B' ? 'selected' : ''}}"
+        bindtap="selectAnswer"
+        data-answer="B">
+        <text class="option-label">B</text>
+        <text class="option-text">{{questions[currentIndex].optionB}}</text>
+      </view>
+
+      <view
+        class="option-item {{userAnswers[currentIndex] === 'C' ? 'selected' : ''}}"
+        bindtap="selectAnswer"
+        data-answer="C">
+        <text class="option-label">C</text>
+        <text class="option-text">{{questions[currentIndex].optionC}}</text>
+      </view>
+
+      <view
+        class="option-item {{userAnswers[currentIndex] === 'D' ? 'selected' : ''}}"
+        bindtap="selectAnswer"
+        data-answer="D">
+        <text class="option-label">D</text>
+        <text class="option-text">{{questions[currentIndex].optionD}}</text>
+      </view>
+    </view>
+
+    <!-- 答案解析 -->
+    <view class="analysis" wx:if="{{showAnalysis}}">
+      <view class="analysis-header">
+        <text class="analysis-result {{isCorrect ? 'correct' : 'wrong'}}">
+          {{isCorrect ? '✅ 回答正确' : '❌ 回答错误'}}
+        </text>
+        <text class="correct-answer">正确答案：{{questions[currentIndex].correctAnswer}}</text>
+      </view>
+      <view class="analysis-content">{{questions[currentIndex].analysis}}</view>
+    </view>
+  </view>
+
+  <!-- 底部操作按钮 -->
+  <view class="footer">
+    <view class="btn-group">
+      <button class="btn btn-secondary" bindtap="prevQuestion" disabled="{{currentIndex === 0}}">
+        上一题
+      </button>
+
+      <button class="btn btn-primary" bindtap="showAnswerAnalysis" wx:if="{{!showAnalysis && userAnswers[currentIndex]}}">
+        查看解析
+      </button>
+
+      <button class="btn btn-primary" bindtap="nextQuestion" wx:if="{{currentIndex < questions.length - 1}}">
+        下一题
+      </button>
+
+      <button class="btn btn-primary" bindtap="submitPractice" wx:if="{{currentIndex === questions.length - 1}}">
+        交卷
+      </button>
+    </view>
+  </view>
+</view>

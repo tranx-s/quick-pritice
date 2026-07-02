@@ -1,0 +1,38 @@
+<!--pages/game/game.wxml-->
+<view class="game-container">
+  <view class="game-header">
+    <text class="game-title">🎮 刷题闯关</text>
+    <text class="game-subtitle">挑战自我，突破极限</text>
+  </view>
+
+  <!-- 游戏模式选择 -->
+  <view class="game-modes">
+    <!-- 闯关爬塔 -->
+    <view class="mode-card tower" bindtap="startTower">
+      <view class="mode-icon">🏰</view>
+      <view class="mode-title">闯关爬塔</view>
+      <view class="mode-desc">答对6题通关，挑战无限楼层</view>
+      <view class="mode-stats">
+        <text>当前层数: {{currentFloor}}</text>
+        <text>生命值: {{todayLife}}/5</text>
+      </view>
+    </view>
+
+    <!-- 60秒竞速 -->
+    <view class="mode-card speed" bindtap="startSpeed">
+      <view class="mode-icon">⚡</view>
+      <view class="mode-title">60秒极速竞速</view>
+      <view class="mode-desc">60秒内答对越多得分越高</view>
+      <view class="mode-stats">
+        <text>剩余次数: {{speedCount}}/3</text>
+        <text>最高分: {{todaySpeedScore}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 排行榜入口 -->
+  <view class="rank-entry" bindtap="goToRank">
+    <text class="rank-icon">🏆</text>
+    <text class="rank-text">查看排行榜</text>
+  </view>
+</view>

@@ -1,0 +1,48 @@
+<!--pages/index/index.wxml-->
+<view class="index-container">
+  <!-- 顶部标语 -->
+  <view class="slogan">
+    <text class="slogan-title">3秒速刷</text>
+    <text class="slogan-subtitle">无广告 · 无课程 · 纯粹刷题</text>
+  </view>
+
+  <!-- 两大核心入口 -->
+  <view class="main-buttons">
+    <view class="btn-card btn-practice" bindtap="goToPractice">
+      <text class="btn-icon">⚡</text>
+      <text class="btn-title">极速速刷</text>
+      <text class="btn-desc">10题随机，立即开始</text>
+    </view>
+
+    <view class="btn-card btn-game" bindtap="goToGame">
+      <text class="btn-icon">🎮</text>
+      <text class="btn-title">刷题闯关</text>
+      <text class="btn-desc">趣味闯关，挑战自我</text>
+    </view>
+  </view>
+
+  <!-- 快捷入口 -->
+  <view class="shortcuts">
+    <view class="shortcut-item" bindtap="goToModule">
+      <text class="shortcut-icon">📚</text>
+      <text class="shortcut-text">专项刷题</text>
+    </view>
+    <view class="shortcut-item" bindtap="goToWrong">
+      <text class="shortcut-icon">📝</text>
+      <text class="shortcut-text">错题本</text>
+    </view>
+  </view>
+
+  <!-- 底部数据统计 -->
+  <view class="stats">
+    <view class="stat-item">
+      <text class="stat-value">{{todayQuestions}}</text>
+      <text class="stat-label">今日刷题</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-value">{{totalQuestions}}</text>
+      <text class="stat-label">累计刷题</text>
+    </view>
+  </view>
+</view>
