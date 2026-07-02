@@ -1,0 +1,116 @@
+<view class="tower-wrap">
+
+  <!-- 准备界面 -->
+  <block wx:if="{{phase === 'ready'}}">
+    <view class="ready-header">
+      <view class="floor-badge">第 {{currentFloor}} 层</view>
+      <view class="max-floor">历史最高：{{maxFloor}} 层</view>
+    </view>
+    <view class="life-row">
+      <block wx:for="{{[1,2,3,4,5]}}" wx:key="*this">
+        <text class="life-icon {{item <= todayLife ? 'alive' : 'dead'}}">♥</text>
+      </block>
+      <text class="life-label">今日生命 {{todayLife}}/5</text>
+    </view>
+    <view class="rule-card">
+      <view class="rule-title">闯关规则</view>
+      <view class="rule-item">📝 每层 8 道题，答对 ≥ 6 题通关</view>
+      <view class="rule-item">💀 未通关扣除 1 条生命</view>
+      <view class="rule-item">🏆 生命归零结束，明日重置</view>
+    </view>
+    <button class="btn-start {{todayLife <= 0 ? 'disabled' : ''}}"
+      bindtap="startFloor" loading="{{loading}}">
+      {{todayLife > 0 ? '开始闯关' : '生命耗尽'}}
+    </button>
+  </block>
+
+  <!-- 答题界面 -->
+  <block wx:if="{{phase === 'answering'}}">
+    <view class="answer-header">
+      <view class="header-left">第 {{currentFloor}} 层</view>
+      <view class="header-progress">{{currentIndex + 1}} / {{questions.length}}</view>
+      <view class="header-right">
+        <block wx:for="{{[1,2,3,4,5]}}" wx:key="*this">
+          <text class="life-dot {{item <= todayLife ? 'alive' : 'dead'}}">♥</text>
+        </block>
+      </view>
+    </view>
+
+    <!-- 进度条 -->
+    <view class="prog-bar-bg">
+      <view class="prog-bar-fill" style="width: {{(currentIndex+1)/questions.length*100}}%"></view>
+    </view>
+
+    <view class="question-card">
+      <view class="q-num">第 {{currentIndex + 1}} 题</view>
+      <view class="q-content">{{questions[currentIndex].content}}</view>
+    </view>
+
+    <view class="options">
+      <view
+        wx:for="{{['A','B','C','D']}}" wx:key="*this"
+        class="option-item
+          {{userAnswers[currentIndex] === item ? (showAnalysis ? (isCorrect ? 'correct' : 'wrong') : 'selected') : ''}}
+          {{showAnalysis && item === questions[currentIndex].correctAnswer ? 'correct' : ''}}"
+        bindtap="selectAnswer" data-answer="{{item}}">
+        <text class="opt-label">{{item}}</text>
+        <text class="opt-text">
+          {{item === 'A' ? questions[currentIndex].optionA :
+            item === 'B' ? questions[currentIndex].optionB :
+            item === 'C' ? questions[currentIndex].optionC :
+            questions[currentIndex].optionD}}
+        </text>
+      </view>
+    </view>
+
+    <view wx:if="{{showAnalysis}}" class="analysis-box">
+      <view class="analysis-label {{isCorrect ? 'correct-text' : 'wrong-text'}}">
+        {{isCorrect ? '✓ 回答正确' : '✗ 回答错误，正确答案：' + questions[currentIndex].correctAnswer}}
+      </view>
+      <view wx:if="{{questions[currentIndex].analysis}}" class="analysis-content">
+        {{questions[currentIndex].analysis}}
+      </view>
+    </view>
+
+    <view class="btn-row">
+      <button class="btn-nav" bindtap="prevQuestion" disabled="{{currentIndex === 0}}">上一题</button>
+      <button class="btn-analysis" bindtap="toggleAnalysis"
+        wx:if="{{userAnswers[currentIndex]}}">解析</button>
+      <button class="btn-nav" bindtap="nextQuestion"
+        wx:if="{{currentIndex < questions.length - 1}}">下一题</button>
+      <button class="btn-submit-floor" bindtap="submitFloor"
+        wx:if="{{currentIndex === questions.length - 1}}">交卷</button>
+    </view>
+  </block>
+
+  <!-- 结算界面 -->
+  <block wx:if="{{phase === 'result'}}">
+    <view class="result-wrap">
+      <view class="result-icon">{{floorResult.passed ? '🎉' : '💀'}}</view>
+      <view class="result-title">{{floorResult.passed ? '通关成功！' : '未能通关'}}</view>
+      <view class="result-msg">{{floorResult.message}}</view>
+      <view class="result-stats">
+        <view class="rs-item">
+          <text class="rs-val">{{floorResult.correctCount}}/{{floorResult.total}}</text>
+          <text class="rs-label">答对题数</text>
+        </view>
+        <view class="rs-item">
+          <text class="rs-val">{{floorResult.currentFloor}}</text>
+          <text class="rs-label">当前层数</text>
+        </view>
+        <view class="rs-item">
+          <text class="rs-val rs-life">{{floorResult.todayLife}}/5</text>
+          <text class="rs-label">剩余生命</text>
+        </view>
+      </view>
+      <view class="result-btns">
+        <button class="btn-continue {{floorResult.todayLife <= 0 ? 'disabled' : ''}}"
+          bindtap="nextFloor">
+          {{floorResult.todayLife > 0 ? (floorResult.passed ? '挑战下一层' : '再次挑战') : '生命耗尽'}}
+        </button>
+        <button class="btn-back-game" bindtap="goBack">返回</button>
+      </view>
+    </view>
+  </block>
+
+</view>

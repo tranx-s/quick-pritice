@@ -8,6 +8,8 @@ import com.quickpractice.service.WrongQuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,5 +81,49 @@ public class QuestionController {
             return Result.error("题目不存在");
         }
         return Result.success(question);
+    }
+
+    /**
+     * 专项刷题 - 模块列表及各模块题量
+     */
+    @GetMapping("/module/list")
+    public Result<List<Map<String, Object>>> moduleList() {
+        List<String> moduleTypes = Arrays.asList("言语理解", "数量关系", "判断推理", "政治理论");
+        List<Map<String, Object>> list = moduleTypes.stream().map(type -> {
+            long count = questionService.countByModule(type);
+            Map<String, Object> item = new LinkedHashMap<>();
+            item.put("moduleType", type);
+            item.put("count", count);
+            return item;
+        }).toList();
+        return Result.success(list);
+    }
+
+    /**
+     * 专项刷题 - 按模块取题
+     */
+    @GetMapping("/module")
+    public Result<List<Question>> moduleQuestions(
+            @RequestParam String moduleType,
+            @RequestParam(defaultValue = "20") Integer count) {
+        List<Question> questions = questionService.getRandomQuestions(count, moduleType);
+        return Result.success(questions);
+    }
+
+    /**
+     * 错题本 - 获取用户错题列表（带题目详情）
+     */
+    @GetMapping("/wrong/list")
+    public Result<List<Map<String, Object>>> wrongList(@RequestParam String openid) {
+        return Result.success(wrongQuestionService.getWrongListWithDetail(openid));
+    }
+
+    /**
+     * 错题本 - 删除单条错题
+     */
+    @DeleteMapping("/wrong/{questionId}")
+    public Result<Void> deleteWrong(@PathVariable Long questionId, @RequestParam String openid) {
+        wrongQuestionService.deleteWrong(openid, questionId);
+        return Result.success();
     }
 }

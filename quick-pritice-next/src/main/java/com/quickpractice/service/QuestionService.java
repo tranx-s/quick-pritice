@@ -88,5 +88,13 @@ public class QuestionService {
         result.put("offline", total - online);
         return result;
     }
+
+    public long countByModule(String moduleType) {
+        return questionMapper.selectCount(
+            new LambdaQueryWrapper<Question>()
+                .eq(Question::getIsOnline, 1)
+                .eq(Question::getModuleType, moduleType)
+        );
+    }
 }
 

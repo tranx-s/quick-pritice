@@ -3,7 +3,11 @@
     "pages/index/index",
     "pages/practice/practice",
     "pages/game/game",
-    "pages/profile/profile"
+    "pages/profile/profile",
+    "pages/tower/tower",
+    "pages/speed/speed",
+    "pages/module/module",
+    "pages/wrong/wrong"
   ],
   "window": {
     "backgroundTextStyle": "light",

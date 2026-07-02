@@ -1,0 +1,100 @@
+<view class="module-wrap">
+
+  <!-- 模块选择页 -->
+  <block wx:if="{{phase === 'select'}}">
+    <view class="page-title">选择专项模块</view>
+    <view class="page-sub">每次随机20题，专项突破</view>
+    <view class="module-list">
+      <view wx:for="{{modules}}" wx:key="moduleType"
+        class="module-card"
+        style="background:{{item.lightColor}}; border-color:{{item.color}};"
+        bindtap="selectModule"
+        data-type="{{item.moduleType}}"
+        data-count="{{item.count}}">
+        <view class="mc-left">
+          <view class="mc-icon">{{item.icon}}</view>
+          <view class="mc-info">
+            <view class="mc-name" style="color:{{item.color}};">{{item.moduleType}}</view>
+            <view class="mc-count">共 {{item.count}} 题</view>
+          </view>
+        </view>
+        <view class="mc-arrow" style="color:{{item.color}};">›</view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 答题页 -->
+  <block wx:if="{{phase === 'answering'}}">
+    <view class="answer-bar">
+      <view class="ab-left">{{selectedModule}}</view>
+      <view class="ab-progress">{{currentIndex + 1}}/{{questions.length}}</view>
+      <view class="ab-answered">已答 {{userAnswers.filter(a => a).length}}</view>
+    </view>
+    <view class="prog-wrap">
+      <view class="prog-fill"
+        style="width:{{(currentIndex+1)/questions.length*100}}%; background:#3b82f6;"></view>
+    </view>
+    <view class="q-card-m">
+      <view class="q-num-m">第 {{currentIndex + 1}} 题</view>
+      <view class="q-content-m">{{questions[currentIndex].content}}</view>
+    </view>
+    <view class="opts-m">
+      <view wx:for="{{['A','B','C','D']}}" wx:key="*this"
+        class="opt-m
+          {{userAnswers[currentIndex] === item ? (showAnalysis ? (isCorrect ? 'opt-correct' : 'opt-wrong') : 'opt-selected') : ''}}
+          {{showAnalysis && item === questions[currentIndex].correctAnswer ? 'opt-correct' : ''}}"
+        bindtap="selectAnswer" data-answer="{{item}}">
+        <text class="oml">{{item}}</text>
+        <text class="omt">
+          {{item === 'A' ? questions[currentIndex].optionA :
+            item === 'B' ? questions[currentIndex].optionB :
+            item === 'C' ? questions[currentIndex].optionC :
+            questions[currentIndex].optionD}}
+        </text>
+      </view>
+    </view>
+    <view wx:if="{{showAnalysis}}" class="analysis-m">
+      <view class="al-label {{isCorrect ? 'al-correct' : 'al-wrong'}}">
+        {{isCorrect ? '✓ 正确' : '✗ 错误，正确答案：' + questions[currentIndex].correctAnswer}}
+      </view>
+      <view wx:if="{{questions[currentIndex].analysis}}" class="al-content">
+        {{questions[currentIndex].analysis}}
+      </view>
+    </view>
+    <view class="btns-m">
+      <button class="bm-nav" bindtap="prevQuestion" disabled="{{currentIndex === 0}}">上一题</button>
+      <button class="bm-ana" bindtap="toggleAnalysis" wx:if="{{userAnswers[currentIndex]}}">解析</button>
+      <button class="bm-nav" bindtap="nextQuestion" wx:if="{{currentIndex < questions.length-1}}">下一题</button>
+      <button class="bm-submit" bindtap="submitPractice" wx:if="{{currentIndex === questions.length-1}}">交卷</button>
+    </view>
+  </block>
+
+  <!-- 结果页 -->
+  <block wx:if="{{phase === 'result'}}">
+    <view class="result-m">
+      <view class="rm-icon">
+        {{result.accuracy >= 80 ? '🏆' : result.accuracy >= 60 ? '👍' : '📚'}}
+      </view>
+      <view class="rm-module">{{result.selectedModule}}</view>
+      <view class="rm-acc">{{result.accuracy}}%</view>
+      <view class="rm-acc-label">正确率</view>
+      <view class="rm-stats">
+        <view class="rms-item">
+          <text class="rms-val green">{{result.correctCount}}</text>
+          <text class="rms-label">答对</text>
+        </view>
+        <view class="rms-item">
+          <text class="rms-val red">{{result.answered - result.correctCount}}</text>
+          <text class="rms-label">答错</text>
+        </view>
+        <view class="rms-item">
+          <text class="rms-val gray">{{result.total - result.answered}}</text>
+          <text class="rms-label">未答</text>
+        </view>
+      </view>
+      <button class="btn-again" bindtap="practiceAgain">继续专项</button>
+      <button class="btn-back-plain" bindtap="goBack">返回首页</button>
+    </view>
+  </block>
+
+</view>

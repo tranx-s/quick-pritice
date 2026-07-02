@@ -1,0 +1,105 @@
+<view class="speed-wrap">
+
+  <!-- 准备页 -->
+  <block wx:if="{{phase === 'ready'}}">
+    <view class="ready-top">
+      <view class="speed-logo">⚡</view>
+      <view class="speed-title">60秒极速竞速</view>
+      <view class="speed-sub">60秒内答对越多得分越高，每题答对+10分</view>
+    </view>
+    <view class="info-cards">
+      <view class="info-card">
+        <text class="ic-val">{{speedCount}}/3</text>
+        <text class="ic-label">今日剩余次数</text>
+      </view>
+      <view class="info-card">
+        <text class="ic-val best">{{todayBest}}</text>
+        <text class="ic-label">今日最高分</text>
+      </view>
+    </view>
+    <button class="btn-go {{speedCount <= 0 ? 'disabled' : ''}}"
+      bindtap="startGame" loading="{{loading}}">
+      {{speedCount > 0 ? '开始竞速' : '今日次数已用完'}}
+    </button>
+    <button class="btn-back-plain" bindtap="goBack">返回</button>
+  </block>
+
+  <!-- 答题页 -->
+  <block wx:if="{{phase === 'playing'}}">
+    <!-- 顶部状态栏 -->
+    <view class="play-header">
+      <view class="timer-box {{timeLeft <= 10 ? 'urgent' : ''}}">
+        <text class="timer-num">{{timeLeft}}</text>
+        <text class="timer-unit">秒</text>
+      </view>
+      <view class="score-box">
+        <text class="score-num">{{score}}</text>
+        <text class="score-label">分</text>
+      </view>
+      <view class="answered-box">
+        <text class="answered-num">{{correctCount}}/{{totalAnswered}}</text>
+        <text class="answered-label">答对</text>
+      </view>
+      <view class="end-btn" bindtap="earlyFinish">结束</view>
+    </view>
+
+    <!-- 反馈遮罩 -->
+    <view wx:if="{{lastCorrect !== null}}"
+      class="feedback-overlay {{lastCorrect ? 'fb-correct' : 'fb-wrong'}}">
+      <text>{{lastCorrect ? '+10' : '✗'}}</text>
+    </view>
+
+    <!-- 题目 -->
+    <view class="q-card" wx:if="{{questions.length > 0}}">
+      <view class="q-content">{{questions[currentIndex].content}}</view>
+    </view>
+
+    <!-- 选项：大按钮快速点击 -->
+    <view class="fast-options" wx:if="{{questions.length > 0}}">
+      <view wx:for="{{['A','B','C','D']}}" wx:key="*this"
+        class="fast-opt" bindtap="selectAnswer" data-answer="{{item}}">
+        <text class="fo-label">{{item}}</text>
+        <text class="fo-text">
+          {{item === 'A' ? questions[currentIndex].optionA :
+            item === 'B' ? questions[currentIndex].optionB :
+            item === 'C' ? questions[currentIndex].optionC :
+            questions[currentIndex].optionD}}
+        </text>
+      </view>
+    </view>
+  </block>
+
+  <!-- 结算页 -->
+  <block wx:if="{{phase === 'finished'}}">
+    <view class="finish-wrap">
+      <view class="finish-icon">🏁</view>
+      <view class="finish-score">{{score}}</view>
+      <view class="finish-score-label">本次得分</view>
+      <view wx:if="{{score >= todayBest}}" class="new-best-badge">🎉 今日最高分！</view>
+      <view class="finish-stats">
+        <view class="fs-item">
+          <text class="fs-val">{{totalAnswered}}</text>
+          <text class="fs-label">总答题</text>
+        </view>
+        <view class="fs-item">
+          <text class="fs-val green">{{correctCount}}</text>
+          <text class="fs-label">答对</text>
+        </view>
+        <view class="fs-item">
+          <text class="fs-val red">{{totalAnswered - correctCount}}</text>
+          <text class="fs-label">答错</text>
+        </view>
+        <view class="fs-item">
+          <text class="fs-val yellow">{{todayBest}}</text>
+          <text class="fs-label">今日最高</text>
+        </view>
+      </view>
+      <view class="finish-btns">
+        <button class="btn-retry {{speedCount <= 0 ? 'disabled' : ''}}"
+          bindtap="retry">{{speedCount > 0 ? '再来一局' : '次数已用完'}}</button>
+        <button class="btn-back-plain" bindtap="goBack">返回</button>
+      </view>
+    </view>
+  </block>
+
+</view>

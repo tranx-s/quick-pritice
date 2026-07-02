@@ -1,0 +1,68 @@
+.speed-wrap { min-height: 100vh; background: #0f0f23; padding: 20rpx; color: #fff; }
+
+/* 准备页 */
+.ready-top { text-align: center; padding: 60rpx 0 40rpx; }
+.speed-logo { font-size: 100rpx; }
+.speed-title { font-size: 50rpx; font-weight: 800; color: #f59e0b; margin: 16rpx 0 12rpx; }
+.speed-sub { font-size: 26rpx; color: #888; }
+.info-cards { display: flex; gap: 20rpx; margin: 40rpx 0; }
+.info-card { flex: 1; background: #1a1a3a; border-radius: 20rpx; padding: 30rpx; text-align: center; }
+.ic-val { display: block; font-size: 48rpx; font-weight: 800; color: #f59e0b; }
+.ic-val.best { color: #4ade80; }
+.ic-label { font-size: 24rpx; color: #888; margin-top: 8rpx; display: block; }
+.btn-go { background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; border-radius: 50rpx;
+  font-size: 34rpx; font-weight: 800; height: 90rpx; line-height: 90rpx; border: none; margin-bottom: 20rpx; }
+.btn-go.disabled { background: #333; color: #666; }
+.btn-back-plain { background: transparent; color: #666; border: none; font-size: 28rpx; }
+
+/* 答题页 */
+.play-header { display: flex; align-items: center; justify-content: space-between;
+  background: #1a1a3a; border-radius: 20rpx; padding: 20rpx 24rpx; margin-bottom: 20rpx; }
+.timer-box { text-align: center; min-width: 80rpx; }
+.timer-num { font-size: 50rpx; font-weight: 800; color: #4ade80; display: block; line-height: 1; }
+.timer-unit { font-size: 22rpx; color: #888; }
+.timer-box.urgent .timer-num { color: #f87171; animation: pulse 0.5s infinite; }
+@keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:0.5 } }
+.score-box { text-align: center; }
+.score-num { font-size: 50rpx; font-weight: 800; color: #f59e0b; display: block; line-height: 1; }
+.score-label { font-size: 22rpx; color: #888; }
+.answered-box { text-align: center; }
+.answered-num { font-size: 32rpx; font-weight: 700; color: #aaa; display: block; }
+.answered-label { font-size: 22rpx; color: #666; }
+.end-btn { background: #2a1a1a; color: #f87171; border-radius: 16rpx; padding: 12rpx 24rpx;
+  font-size: 26rpx; }
+.feedback-overlay { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  font-size: 80rpx; font-weight: 900; pointer-events: none; z-index: 100;
+  animation: fadeUp 0.35s ease-out forwards; }
+.feedback-overlay.fb-correct { color: #4ade80; }
+.feedback-overlay.fb-wrong { color: #f87171; }
+@keyframes fadeUp { 0% { opacity:1; transform:translate(-50%,-50%) } 100% { opacity:0; transform:translate(-50%,-120%) } }
+.q-card { background: #1a1a3a; border-radius: 20rpx; padding: 30rpx; margin-bottom: 20rpx; min-height: 180rpx; }
+.q-content { font-size: 30rpx; color: #eee; line-height: 1.7; }
+.fast-options { display: flex; flex-direction: column; gap: 16rpx; }
+.fast-opt { display: flex; align-items: center; background: #1a1a3a; border-radius: 16rpx;
+  padding: 28rpx 24rpx; active-opacity: 0.6; }
+.fast-opt:active { background: #2a2a5a; }
+.fo-label { width: 50rpx; height: 50rpx; border-radius: 50%; background: #f59e0b; color: #000;
+  text-align: center; line-height: 50rpx; font-size: 28rpx; font-weight: 800; flex-shrink: 0; margin-right: 20rpx; }
+.fo-text { font-size: 28rpx; color: #ddd; flex: 1; line-height: 1.5; }
+
+/* 结算页 */
+.finish-wrap { text-align: center; padding: 60rpx 20rpx; }
+.finish-icon { font-size: 100rpx; }
+.finish-score { font-size: 120rpx; font-weight: 900; color: #f59e0b; line-height: 1; margin: 20rpx 0 10rpx; }
+.finish-score-label { font-size: 28rpx; color: #888; }
+.new-best-badge { display: inline-block; background: #2a1a00; color: #f59e0b; border-radius: 30rpx;
+  padding: 10rpx 30rpx; font-size: 28rpx; font-weight: 700; margin: 20rpx auto; }
+.finish-stats { display: flex; justify-content: space-around; background: #1a1a3a;
+  border-radius: 20rpx; padding: 30rpx; margin: 30rpx 0; }
+.fs-item { text-align: center; }
+.fs-val { display: block; font-size: 44rpx; font-weight: 800; color: #fff; }
+.fs-val.green { color: #4ade80; }
+.fs-val.red { color: #f87171; }
+.fs-val.yellow { color: #f59e0b; }
+.fs-label { display: block; font-size: 22rpx; color: #888; margin-top: 6rpx; }
+.finish-btns { display: flex; flex-direction: column; gap: 20rpx; }
+.btn-retry { background: linear-gradient(135deg, #f59e0b, #d97706); color: #000;
+  border-radius: 50rpx; border: none; font-size: 32rpx; font-weight: 800; height: 90rpx; line-height: 90rpx; }
+.btn-retry.disabled { background: #333; color: #666; }
